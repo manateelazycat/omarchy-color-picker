@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.manateelazycat.color-picker",
+  "name": "Omarchy Color Picker",
+  "version": "1.0.0",
+  "author": "Andy Stewart",
+  "license": "GPL-3.0-only",
+  "description": "Pick an exact screen pixel from the Omarchy bar and copy it as HEX, RGB, or HSL.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Omarchy Color Picker",
+    "description": "Open a circular pixel magnifier and copy the selected color.",
+    "category": "Utility",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "format": "hex"
+    },
+    "schema": [
+      {
+        "key": "format",
+        "type": "enum",
+        "label": "Clipboard color format",
+        "options": [
+          "hex",
+          "rgb",
+          "hsl"
+        ],
+        "defaultValue": "hex"
+      }
+    ]
+  }
+}

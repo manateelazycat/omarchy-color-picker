@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+printf '%s\n' "$*" > "${MOCK_ARGS_FILE:?}"
+exit_code="${MOCK_EXIT_CODE:-0}"
+((exit_code == 0)) || exit "$exit_code"
+printf '%s\n' "${MOCK_COLOR-}"

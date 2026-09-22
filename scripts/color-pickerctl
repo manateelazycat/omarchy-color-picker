@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+
+# SPDX-License-Identifier: GPL-3.0-only
+
+set -u -o pipefail
+
+readonly HYPRPICKER="${OMARCHY_COLOR_PICKER_HYPRPICKER:-hyprpicker}"
+readonly WL_COPY="${OMARCHY_COLOR_PICKER_WL_COPY:-wl-copy}"
+readonly ZOOM_SCALE="${OMARCHY_COLOR_PICKER_SCALE:-8}"
+readonly LENS_RADIUS="${OMARCHY_COLOR_PICKER_RADIUS:-64}"
+
+usage() {
+  cat <<'EOF'
+Usage: color-pickerctl pick <hex|rgb|hsl>
+       color-pickerctl formats
+EOF
+}
+
+die() {
+  printf 'color-pickerctl: %s\n' "$*" >&2
+  exit 1
+}
+
+normalize_format() {
+  local value="${1,,}"
+  case "$value" in
+    hex|rgb|hsl) printf '%s\n' "$value" ;;
+    *) return 1 ;;
+  esac
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
+}
+
+is_byte() {
+  [[ $1 =~ ^[0-9]+$ ]] && ((10#$1 <= 255))
+}
+
+format_color() {
+  local format="$1"
+  local raw="$2"
+  local first second third extra
+
+  case "$format" in
+    hex)
+      [[ $raw =~ ^#[0-9A-Fa-f]{6}$ ]] || die "unexpected HEX value from hyprpicker: $raw"
+      printf '%s\n' "${raw^^}"
+      ;;
+    rgb)
+      read -r first second third extra <<<"$raw"
+      [[ -z ${extra:-} ]] || die "unexpected RGB value from hyprpicker: $raw"
+      is_byte "${first:-}" && is_byte "${second:-}" && is_byte "${third:-}" \
+        || die "unexpected RGB value from hyprpicker: $raw"
+      printf 'rgb(%s, %s, %s)\n' "$first" "$second" "$third"
+      ;;
+    hsl)
+      read -r first second third extra <<<"$raw"
+      [[ -z ${extra:-} ]] || die "unexpected HSL value from hyprpicker: $raw"
+      [[ ${first:-} =~ ^[0-9]+([.][0-9]+)?$ \
+        && ${second:-} =~ ^[0-9]+([.][0-9]+)?%$ \
+        && ${third:-} =~ ^[0-9]+([.][0-9]+)?%$ ]] \
+        || die "unexpected HSL value from hyprpicker: $raw"
+      printf 'hsl(%s, %s, %s)\n' "$first" "$second" "$third"
+      ;;
+  esac
+}
+
+pick_color() {
+  local format raw status value
+  local -a picker_args
+  format="$(normalize_format "${1:-}")" || die "unsupported format: ${1:-<empty>}"
+  require_command "$HYPRPICKER"
+  require_command "$WL_COPY"
+
+  picker_args=(
+    --no-fancy
+    --format="$format"
+    --scale="$ZOOM_SCALE"
+    --radius="$LENS_RADIUS"
+  )
+  # hyprpicker 0.4.7 passes its final HSL string through a printf-style
+  # logger. Doubling each percent sign preserves all three components.
+  if [[ $format == hsl ]]; then
+    picker_args+=(--output-format='{} {}%% {}%%')
+  fi
+
+  raw="$("$HYPRPICKER" "${picker_args[@]}")"
+  status=$?
+  ((status == 0)) || exit "$status"
+
+  raw="${raw//$'\r'/}"
+  [[ -n $raw ]] || die "hyprpicker returned no color"
+  value="$(format_color "$format" "$raw")"
+  status=$?
+  ((status == 0)) || exit "$status"
+  [[ -n $value ]] || die "failed to format the selected color"
+  printf '%s' "$value" | "$WL_COPY" || die "failed to copy the selected color"
+  printf '%s\n' "$value"
+}
+
+case "${1:-}" in
+  pick)
+    [[ $# -eq 2 ]] || { usage >&2; exit 2; }
+    pick_color "$2"
+    ;;
+  formats)
+    printf '%s\n' hex rgb hsl
+    ;;
+  -h|--help|help)
+    usage
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
