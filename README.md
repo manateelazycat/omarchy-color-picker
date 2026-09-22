@@ -32,16 +32,15 @@ hsl(210, 100%, 56%)
 sudo pacman -S hyprpicker wl-clipboard
 ```
 
-## 本地安装
+## 安装
 
-代码固定保存在 `/home/andy/omarchy-color-picker`。把源码目录链接到 Omarchy 用户插件目录，然后启用到顶栏右侧：
+使用 Omarchy 插件管理器从 GitHub 安装并启用：
 
 ```bash
-ln -s /home/andy/omarchy-color-picker \
-  ~/.config/omarchy/plugins/io.github.manateelazycat.color-picker
-omarchy-shell shell rescanPlugins
-omarchy plugin enable io.github.manateelazycat.color-picker right
+omarchy plugin add https://github.com/manateelazycat/omarchy-color-picker.git --enable --yes
 ```
+
+插件默认显示在顶栏右侧。
 
 ## 使用
 
