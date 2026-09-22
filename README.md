@@ -1,5 +1,7 @@
 # Omarchy Color Picker
 
+[Omarchy Color Picker 演示视频](preview.mp4)
+
 一个 Omarchy 4 顶栏取色插件。点击取色器图标后，光标会变成圆形像素放大镜；点击任意像素即可退出取色模式，并把颜色复制到系统剪贴板。
 
 ## 功能
