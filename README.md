@@ -26,12 +26,6 @@ hsl(210, 100%, 56%)
 - `hyprpicker`
 - `wl-clipboard`（提供 `wl-copy`）
 
-在 Arch Linux 上可以使用以下命令安装缺失依赖：
-
-```bash
-sudo pacman -S hyprpicker wl-clipboard
-```
-
 ## 安装
 
 使用 Omarchy 插件管理器从 GitHub 安装并启用：
