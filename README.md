@@ -1,18 +1,20 @@
 # Omarchy Color Picker
 
+English | [简体中文](README.zh-CN.md)
+
 https://github.com/user-attachments/assets/1ee22eef-4369-42eb-83d6-507146b6a505
 
-一个 Omarchy 4 顶栏取色插件。点击取色器图标后，光标会变成圆形像素放大镜；点击任意像素即可退出取色模式，并把颜色复制到系统剪贴板。
+An Omarchy 4 top bar color picker. Clicking its icon turns the cursor into a circular pixel magnifier. Click any pixel to leave picking mode and copy its color to the system clipboard.
 
-## 功能
+## Features
 
-- 默认显示在 Omarchy 顶栏右侧
-- 8 倍圆形像素放大镜，精确标示中心取样像素
-- 左键开始取色，点击像素完成，`Esc` 取消
-- 右键选择并持久保存剪贴板格式
-- 支持 `HEX`、`RGB` 和 `HSL`
+- Appears on the right side of the Omarchy top bar by default.
+- An 8× circular pixel magnifier marks the exact center pixel being sampled.
+- Left-click to start picking, click a pixel to finish, or press `Esc` to cancel.
+- Right-click to choose a clipboard format; the choice is saved.
+- Supports `HEX`, `RGB`, and `HSL`.
 
-复制结果示例：
+Example clipboard results:
 
 ```text
 #1E90FF
@@ -20,44 +22,44 @@ rgb(30, 144, 255)
 hsl(210, 100%, 56%)
 ```
 
-## 依赖
+## Requirements
 
-- Omarchy 4（Quattro）及其 Quickshell 插件系统
+- Omarchy 4 (Quattro) and its Quickshell plugin system
 - `hyprpicker`
-- `wl-clipboard`（提供 `wl-copy`）
+- `wl-clipboard` (provides `wl-copy`)
 
-## 安装
+## Install
 
-使用 Omarchy 插件管理器从 GitHub 安装并启用：
+Install and enable the plugin from GitHub with the Omarchy plugin manager:
 
 ```bash
 omarchy plugin add https://github.com/manateelazycat/omarchy-color-picker.git --enable --yes
 ```
 
-插件默认显示在顶栏右侧。
+The plugin appears on the right side of the top bar by default.
 
-## 使用
+## Usage
 
-- 左键点击顶栏取色器图标开始取色。
-- 移动鼠标，通过圆形放大镜选择中心像素。
-- 点击复制颜色，或按 `Esc` 取消。
-- 右键点击顶栏图标，在菜单中切换 `HEX`、`RGB` 或 `HSL`。
+- Left-click the color picker icon in the top bar to start picking.
+- Move the pointer to select the center pixel with the circular magnifier.
+- Click to copy the color, or press `Esc` to cancel.
+- Right-click the bar icon to switch between `HEX`, `RGB`, and `HSL` in the menu.
 
-## 验证
+## Validation
 
 ```bash
 omarchy plugin validate .
 ./tests/color-pickerctl-test.sh
 ```
 
-## 卸载
+## Remove
 
 ```bash
 omarchy plugin remove io.github.manateelazycat.color-picker --yes
 ```
 
-卸载插件不会删除 `hyprpicker` 或 `wl-clipboard`。
+Removing the plugin does not remove `hyprpicker` or `wl-clipboard`.
 
-## 许可证
+## License
 
-本项目依据 [GNU General Public License v3.0](LICENSE) 发布，SPDX 标识为 `GPL-3.0-only`。
+This project is distributed under the [GNU General Public License v3.0](LICENSE), with SPDX identifier `GPL-3.0-only`.
