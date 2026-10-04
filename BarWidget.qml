@@ -158,7 +158,12 @@ BarWidget {
     id: button
     anchors.fill: parent
     bar: root.bar
-    text: "󰃉"
+    iconComponent: Component {
+      ColorPickerIcon {
+        color: button.active && button.useActiveColor
+          ? button.activeColor : button.foreground
+      }
+    }
     active: root.pickerBusy
     tooltipText: root.pickerBusy
       ? "正在取色…\n点击颜色完成，按 Esc 取消"

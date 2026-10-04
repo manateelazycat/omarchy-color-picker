@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "io.github.manateelazycat.color-picker",
   "name": "Omarchy Color Picker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Andy Stewart",
   "license": "GPL-3.0-only",
   "description": "Pick an exact screen pixel from the Omarchy bar and copy it as HEX, RGB, or HSL.",
