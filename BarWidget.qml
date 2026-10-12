@@ -1,9 +1,10 @@
+import "CompatUi" as ThemeUi
 // SPDX-License-Identifier: GPL-3.0-only
 
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.Commons
+import qs.Commons as Commons
 import qs.Ui
 
 BarWidget {
@@ -154,7 +155,7 @@ BarWidget {
     function toggle(): void { root.togglePanel() }
   }
 
-  BarIconButton {
+  ThemeUi.BarIconButton {
     id: button
     anchors.fill: parent
     bar: root.bar

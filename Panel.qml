@@ -1,7 +1,8 @@
+import "CompatUi" as ThemeUi
 // SPDX-License-Identifier: GPL-3.0-only
 
 import QtQuick
-import qs.Commons
+import qs.Commons as Commons
 import qs.Ui
 
 Panel {
@@ -16,8 +17,8 @@ Panel {
   property int focusIndex: 0
 
   readonly property var barIdentity: hostWidget || root
-  readonly property color foreground: root.bar ? root.bar.barForeground : Color.foreground
-  readonly property string fontFamily: root.bar ? root.bar.fontFamily : Style.font.family
+  readonly property color foreground: root.bar ? root.bar.barForeground : Commons.Color.foreground
+  readonly property string fontFamily: root.bar ? root.bar.fontFamily : Commons.Style.font.family
 
   function normalizedFormat(value) {
     var normalized = String(value || "").toLowerCase()
@@ -84,33 +85,33 @@ Panel {
     property string example: "#1E90FF"
     property bool selected: false
     property bool hasCursor: false
-    property color foreground: Color.foreground
-    property string fontFamily: Style.font.family
+    property color foreground: Commons.Color.foreground
+    property string fontFamily: Commons.Style.font.family
 
     signal clicked()
     signal hovered(bool isHovered)
 
-    implicitHeight: Math.max(Style.space(48), labels.implicitHeight + Style.space(12))
-    radius: Style.cornerRadius
+    implicitHeight: Math.max(Commons.Style.space(48), labels.implicitHeight + Commons.Style.space(12))
+    radius: Commons.Style.cornerRadius
     color: mouse.pressed
-      ? Style.pressedFillFor(formatItem.foreground, Color.accent)
+      ? Commons.Style.pressedFillFor(formatItem.foreground, Commons.Color.accent)
       : (formatItem.hasCursor || mouse.containsMouse)
-        ? Style.hoverFillFor(formatItem.foreground, formatItem.foreground)
+        ? Commons.Style.hoverFillFor(formatItem.foreground, formatItem.foreground)
         : formatItem.selected
-          ? Style.selectedFillFor(formatItem.foreground, Color.accent)
+          ? Commons.Style.selectedFillFor(formatItem.foreground, Commons.Color.accent)
           : "transparent"
 
     Behavior on color { ColorAnimation { duration: 120 } }
 
     Text {
-      width: Style.space(18)
+      width: Commons.Style.space(18)
       anchors.left: parent.left
-      anchors.leftMargin: Style.space(10)
+      anchors.leftMargin: Commons.Style.space(10)
       anchors.verticalCenter: parent.verticalCenter
       text: formatItem.selected ? "✓" : ""
       color: formatItem.foreground
       font.family: formatItem.fontFamily
-      font.pixelSize: Style.font.body
+      font.pixelSize: Commons.Style.font.body
       horizontalAlignment: Text.AlignHCenter
       verticalAlignment: Text.AlignVCenter
     }
@@ -119,16 +120,16 @@ Panel {
       id: labels
       anchors.left: parent.left
       anchors.right: parent.right
-      anchors.leftMargin: Style.space(40)
-      anchors.rightMargin: Style.space(10)
+      anchors.leftMargin: Commons.Style.space(40)
+      anchors.rightMargin: Commons.Style.space(10)
       anchors.verticalCenter: parent.verticalCenter
-      spacing: Style.space(2)
+      spacing: Commons.Style.space(2)
 
       Text {
         text: formatItem.label
         color: formatItem.foreground
         font.family: formatItem.fontFamily
-        font.pixelSize: Style.font.body
+        font.pixelSize: Commons.Style.font.body
       }
 
       Text {
@@ -136,7 +137,7 @@ Panel {
         color: formatItem.foreground
         opacity: 0.62
         font.family: formatItem.fontFamily
-        font.pixelSize: Style.font.caption
+        font.pixelSize: Commons.Style.font.caption
       }
     }
 
@@ -151,17 +152,17 @@ Panel {
     }
   }
 
-  KeyboardPanel {
+  ThemeUi.KeyboardPanel {
     id: panel
     anchorItem: root.anchorItem
     owner: root.barIdentity
     bar: root.bar
     open: root.opened
     focusTarget: keyCatcher
-    contentWidth: panel.fittedContentWidth(Style.space(240))
+    contentWidth: panel.fittedContentWidth(Commons.Style.space(240))
     contentHeight: panel.fittedContentHeight(content.implicitHeight)
 
-    PanelKeyCatcher {
+    ThemeUi.PanelKeyCatcher {
       id: keyCatcher
       anchors.fill: parent
       onMoveRequested: function(dx, dy) {
@@ -180,17 +181,17 @@ Panel {
       Column {
         id: content
         width: parent.width
-        spacing: Style.space(4)
+        spacing: Commons.Style.space(4)
 
         Text {
           width: parent.width
           text: "复制颜色格式"
           color: root.foreground
           font.family: root.fontFamily
-          font.pixelSize: Style.font.caption
+          font.pixelSize: Commons.Style.font.caption
           opacity: 0.68
-          leftPadding: Style.space(10)
-          bottomPadding: Style.space(4)
+          leftPadding: Commons.Style.space(10)
+          bottomPadding: Commons.Style.space(4)
         }
 
         FormatItem {
